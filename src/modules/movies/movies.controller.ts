@@ -8,7 +8,6 @@ import {
   Req,
   NotFoundException,
   Query,
-  BadRequestException,
   UseInterceptors,
   ClassSerializerInterceptor,
   UploadedFile,
@@ -45,14 +44,10 @@ export class MoviesController {
     @Body() createMovieDto: CreateMovieDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    try {
-      const user = await this.usersService.findOne(request.user.id);
-      const movie = await this.moviesService.create(user, createMovieDto, file);
+    const user = await this.usersService.findOne(request.user.id);
+    const movie = await this.moviesService.create(user, createMovieDto, file);
 
-      return new MovieEntity(movie);
-    } catch (error) {
-      throw new BadRequestException(error.message);
-    }
+    return new MovieEntity(movie);
   }
 
   @Get()

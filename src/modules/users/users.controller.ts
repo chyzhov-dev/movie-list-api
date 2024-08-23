@@ -18,11 +18,7 @@ export class UsersController {
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    try {
-      return await this.usersService.create(createUserDto);
-    } catch (error) {
-      throw new HttpException(error, HttpStatus.CONFLICT);
-    }
+    return await this.usersService.create(createUserDto);
   }
 
   @Get(':id')

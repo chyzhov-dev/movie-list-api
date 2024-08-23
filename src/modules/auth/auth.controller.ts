@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Post,
-  Body,
-  UnauthorizedException,
-  Res,
-  HttpStatus,
-} from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -16,22 +9,12 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('login')
-  async login(@Body() { email, password }: AuthDto, @Res() res) {
-    try {
-      const response = await this.authService.signIn(email, password);
-      res.status(HttpStatus.OK).send(response);
-    } catch {
-      throw new UnauthorizedException('Email or password is incorrect');
-    }
+  async login(@Body() { email, password }: AuthDto) {
+    return this.authService.signIn(email, password);
   }
 
   @Post('register')
-  async register(@Body() { email, password }: AuthDto, @Res() res) {
-    try {
-      const response = await this.authService.signUp(email, password);
-      res.status(HttpStatus.CREATED).send(response);
-    } catch (e) {
-      res.status(HttpStatus.BAD_REQUEST).send(e.message);
-    }
+  async register(@Body() { email, password }: AuthDto) {
+    return this.authService.signUp(email, password);
   }
 }

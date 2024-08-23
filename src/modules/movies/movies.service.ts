@@ -40,7 +40,7 @@ export class MoviesService {
     { year, title }: CreateMovieDto,
     poster?: Express.Multer.File,
   ) {
-    const payload = {
+    const payload: Partial<Movie> = {
       year,
       title,
       user,
@@ -56,16 +56,13 @@ export class MoviesService {
 
     if (poster) {
       try {
-        const fileName = await this.savePoster(poster);
-
-        return this.movieRepository.save({
-          ...payload,
-          poster: fileName,
-        });
+        payload.poster = await this.savePoster(poster);
       } catch {
-        throw new Error('Failed to save');
+        throw new Error('Failed to save poster');
       }
     }
+
+    return this.movieRepository.save(payload);
   }
 
   async update(
@@ -88,10 +85,14 @@ export class MoviesService {
         const fileName = await this.savePoster(file);
 
         // delete old file
-        const rootDirectory = path.resolve(process.cwd());
-        const oldFilePath = path.join(rootDirectory, movie.poster);
-        debugger;
-        fs.unlinkSync(oldFilePath);
+        if (movie.poster) {
+          const rootDirectory = path.resolve(process.cwd());
+          const oldFilePath = path.join(rootDirectory, movie.poster);
+
+          if (fs.existsSync(oldFilePath)) {
+            fs.unlinkSync(oldFilePath);
+          }
+        }
 
         return this.movieRepository.save({
           ...movie,
@@ -99,7 +100,8 @@ export class MoviesService {
           title,
           poster: fileName,
         });
-      } catch {
+      } catch (e) {
+        debugger;
         throw new Error('Failed to save');
       }
     }
