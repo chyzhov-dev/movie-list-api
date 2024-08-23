@@ -1,0 +1,16 @@
+name: 'movie-app'
+services:
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=user
+      - MYSQL_DATABASE=movies-db
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - mysql_volume:/var/lib/mysql
+    ports:
+      - '14306:3306'
+volumes:
+  mysql_volume:
