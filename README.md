@@ -45,3 +45,6 @@ $ npm run start:prod
 ```
 
 
+## Swagger  
+
+api documentation available at http://localhost:3001/api
