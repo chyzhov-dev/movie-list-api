@@ -22,6 +22,9 @@ DB_NAME=movies-db
 
 JWT_SECRET=supersecret
 JWT_EXPIRES_IN=1d
+
+APP_PORT=3001
+STORAGE_UPLOADS=uploads
 ```
 
 ## Database setup
