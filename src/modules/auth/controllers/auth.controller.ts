@@ -21,7 +21,7 @@ export class AuthController {
   ): Promise<AuthResponse> {
     const { email, password } = body;
     const user = await this.usersService.findOneByEmail(email);
-    const passwordIsCorrect = await bcrypt.compare(password, user.password);
+    const passwordIsCorrect = user ? await bcrypt.compare(password, user.password) : false;
 
     if (!user || !passwordIsCorrect) {
       throw new Error('Invalid credentials');
