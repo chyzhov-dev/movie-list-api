@@ -25,13 +25,14 @@ async function bootstrap(): Promise<void> {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  const uploadDir = join(process.cwd(), 'uploads');
+  const storageDir = process.env.STORAGE_UPLOADS;
+  const uploadDir = join(process.cwd(), storageDir);
 
   if (!existsSync(uploadDir)) {
     mkdirSync(uploadDir);
   }
 
-  app.use('/uploads', express.static(join(process.cwd(), 'uploads')));
+  app.use('/uploads', express.static(join(process.cwd(), storageDir)));
 
   app.enableCors({
     origin: '*',
