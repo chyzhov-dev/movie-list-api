@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
+import { BadGatewayException, BadRequestException, HttpException, HttpStatus } from "@nestjs/common";
 
 /**
  * Get status from exception object
@@ -28,6 +28,10 @@ export const getExceptionMessage = (exception: unknown): string => {
   // }
 
   if (exception instanceof HttpException) {
+    return exception.message;
+  }
+
+  if (exception instanceof Error) {
     return exception.message;
   }
 

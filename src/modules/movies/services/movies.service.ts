@@ -29,7 +29,6 @@ export class MoviesService {
    */
   private getStoragePath(...parts: string[]): string {
     return path.join(
-      path.resolve(process.cwd()),
       path.resolve(this.configService.get('STORAGE_UPLOADS', 'uploads')),
       ...(parts ?? []),
     );
@@ -78,7 +77,12 @@ export class MoviesService {
     };
 
     if (file) {
-      payload.poster = await this.savePoster(file);
+      try {
+        payload.poster = await this.savePoster(file);
+      } catch (e) {
+        debugger
+        throw new Error('Error save poster');
+      }
     }
 
     return this.movieRepository.save(payload);
