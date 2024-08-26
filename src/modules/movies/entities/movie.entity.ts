@@ -1,22 +1,25 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { User } from '@modules/users/entities/user.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Movie {
   @PrimaryGeneratedColumn()
-  id: number;
+  public id: number;
 
   @Column()
-  title: string;
+  public title: string;
 
   @Column()
-  year: number;
+  public year: number;
+
+  @Column()
+  public userId: number;
 
   @Column({
     nullable: true,
   })
-  poster: string;
+  public poster: string;
 
   @ManyToOne(() => User, (user) => user.movies)
-  user: User;
+  public user: User;
 }

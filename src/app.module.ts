@@ -1,10 +1,10 @@
-import { Module } from '@nestjs/common';
-import { UsersModule } from '@modules/users/users.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from '@modules/auth/auth.module';
 import { MoviesModule } from '@modules/movies/movies.module';
+import { UsersModule } from '@modules/users/users.module';
+import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [

@@ -1,13 +1,13 @@
-import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import { AppModule } from './app.module';
+import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { join } from 'path';
-import { existsSync, mkdirSync } from 'fs';
+import { HttpExceptionFilter } from '@core/filters/http-exception.filter';
 import * as express from 'express';
-import { HttpExceptionFilter } from '@src/http-exception.filter';
+import { existsSync, mkdirSync } from 'fs';
+import { join } from 'path';
+import { AppModule } from './app.module';
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(new ValidationPipe());
@@ -26,6 +26,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   const uploadDir = join(process.cwd(), 'uploads');
+
   if (!existsSync(uploadDir)) {
     mkdirSync(uploadDir);
   }
@@ -38,6 +39,7 @@ async function bootstrap() {
     preflightContinue: false,
   });
 
-  await app.listen(3001);
+  await app.listen(process.env.APP_PORT);
 }
-bootstrap();
+
+void bootstrap();
