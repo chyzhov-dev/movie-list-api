@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString, Min } from 'class-validator';
+import { IsEmail, IsString, Length } from "class-validator";
 
 export class AuthRegisterRequest {
   @ApiProperty()
@@ -8,6 +8,6 @@ export class AuthRegisterRequest {
 
   @ApiProperty()
   @IsString()
-  @Min(3)
+  @Length(6, 30)
   public password: string;
 }
